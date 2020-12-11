@@ -29,7 +29,7 @@ async function runWorker(page) {
             if (errorTimes > 6) {
                 errorTimes = 0;
                 await page.reload();
-                await page.waitForSelector('.pricetable', {visible: true, timeout: 60000});
+                await page.waitForSelector('#post-1959 > div:nth-child(2) > div.section_inner > div.pricetable', {visible: true, timeout: 60000});
             }
         }
     });
