@@ -8,13 +8,16 @@ const cacheKey = "VM:PLAN";
 
 //监控运行
 async function runWorker(page) {
+    console.log(`${timer.get()} 开始运行`);
     let errorTimes = 0;
     //正常请求
     page.on('response', async (response) => {
         if (response.url() === vm_plan_url) {
             let jsonResult = await response.json();
             jsonResult.updateTime = timer.get();
-            await redisAsync.setValue(cacheKey, JSON.stringify(jsonResult));
+            jsonResult = JSON.stringify(jsonResult);
+            await redisAsync.setValue(cacheKey, jsonResult);
+            console.log(`${timer.get()} runWorker : ${jsonResult}`);
             errorTimes = 0;
         }
     });
@@ -56,6 +59,10 @@ async function runJob(headless = true) {
         let page = await browser.newPage();
         await setting.pageSetting(page);
         await page.goto(vm_url);
+        await page.waitForSelector('#post-1959 > div:nth-child(2) > div.section_inner > div.pricetable', {
+            visible: true,
+            timeout: 30000
+        });
         await runWorker(page);
     } catch (e) {
         console.log(`${timer.get()} runJob error: ${e.message}`);
