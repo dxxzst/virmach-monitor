@@ -1,0 +1,14 @@
+{
+  "name": "vm-monitor",
+  "version": "1.0.0",
+  "description": "vm monitor",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "xsong",
+  "license": "ISC",
+  "dependencies": {
+    "puppeteer": "^5.5.0"
+  }
+}
